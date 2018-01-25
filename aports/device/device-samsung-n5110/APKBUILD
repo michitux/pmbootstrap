@@ -1,0 +1,22 @@
+# Reference: <https://postmarketos.org/devicepkg>
+pkgname="device-samsung-n5110"
+pkgdesc="Samsung Galaxy Note 8.0 (Wi-Fi)"
+pkgver=0.1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="noarch"
+options="!check"
+depends="linux-samsung-n5110 mkbootimg mesa-dri-swrast"
+makedepends="devicepkg-dev"
+source="deviceinfo"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="e4247419489bb0a82543f26d038e02eee8a6610f05b3e31330fccb8b9a308c5d387383e44380fb5314f1dc5dc794c23672363e270d7f8f86a3f83627f0ef358d  deviceinfo"
