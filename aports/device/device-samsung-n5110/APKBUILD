@@ -9,7 +9,7 @@ arch="noarch"
 options="!check"
 depends="linux-samsung-n5110 mkbootimg mesa-dri-swrast"
 makedepends="devicepkg-dev"
-source="deviceinfo"
+source="deviceinfo pointercal"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -17,6 +17,10 @@ build() {
 
 package() {
 	devicepkg_package $startdir $pkgname
+
+	install -D -m644 "$srcdir/pointercal" \
+		"$pkgdir/etc/pointercal"
 }
 
-sha512sums="e4247419489bb0a82543f26d038e02eee8a6610f05b3e31330fccb8b9a308c5d387383e44380fb5314f1dc5dc794c23672363e270d7f8f86a3f83627f0ef358d  deviceinfo"
+sha512sums="e4247419489bb0a82543f26d038e02eee8a6610f05b3e31330fccb8b9a308c5d387383e44380fb5314f1dc5dc794c23672363e270d7f8f86a3f83627f0ef358d  deviceinfo
+3143f3c2d884480531dffd970753e884048bae68533a05b457483b0fa2448d7c9150bb649d25056ebe8879675284148f431447644d265cc7440b35320523cd4e  pointercal"
