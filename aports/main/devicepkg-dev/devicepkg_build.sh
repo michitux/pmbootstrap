@@ -33,14 +33,16 @@ echo_libinput_calibration()
 {
 	# Check if we have got the required number of parameters.
 	if [ $# -ne 6 ]; then
-		echo "Warning: There must be exactly 6 (or 0) values for the touchscreen calibration. No calibration matrix for x11/libinput will be generated." >&2
+		echo "WARNING: There must be exactly 6 (or 0) values for the touchscreen calibration." >&2
+		echo "WARNING: No calibration matrix for x11/libinput will be generated." >&2
 		return
 	fi
 
 	# Check if we have got a screen width and screen height.
 	# shellcheck disable=SC2154
 	if [ -z "$deviceinfo_screen_width" ] || [ -z "$deviceinfo_screen_height" ]; then
-		echo "Warning: Screen width and height are required to generate a calibration matrix for x11/libinput. No calibration matrix for x11/libinput will be generated." >&2
+		echo "WARNING: Screen width and height are required to generate a calibration matrix for x11/libinput." >&2
+		echo "WARNING: No calibration matrix for x11/libinput will be generated." >&2
 		return
 	fi
 
@@ -54,7 +56,8 @@ echo_libinput_calibration()
 	# Check if we have got results from dc. If there was an error, dc should have
 	# printed an error message that hopefully gives the user a hint why it failed.
 	if [ -z "$x_offset" ] || [ -z "$y_offset" ]; then
-		echo "Warning: Calculating the offsets for the calibration matrix for x11/libinput failed. No calibration matrix for x11/libinput will be generated." >&2
+		echo "WARNING: Calculating the offsets for the calibration matrix for x11/libinput failed." >&2
+		echo "No calibration matrix for x11/libinput will be generated." >&2
 		return
 	fi
 
