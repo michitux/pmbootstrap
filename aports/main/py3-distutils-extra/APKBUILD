@@ -1,0 +1,26 @@
+# Contributor:
+# Maintainer:
+pkgname=py3-distutils-extra
+pkgver=2.39
+pkgrel=0
+pkgdesc="Enhanced distutils package for python3"
+url="https://launchpad.net/python-distutils-extra"
+arch="noarch"
+license="GPL"
+depends="python3"
+makedepends="python3-dev"
+install=""
+source="https://launchpad.net/python-distutils-extra/trunk/$pkgver/+download/python-distutils-extra-$pkgver.tar.gz"
+builddir="$srcdir/python-distutils-extra-$pkgver"
+
+build() {
+	cd "$builddir"
+	python3 setup.py build
+}
+
+package() {
+	cd "$builddir"
+	python3 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="e3b4d1ed22767fb4c6dbbdccef960865b6fda01d18dc38cb8f9357c09c7eabb78466fce053e407a196eca257d07d57c5c1ef47f358a5979c7f22e4b11775124e  python-distutils-extra-2.39.tar.gz"
