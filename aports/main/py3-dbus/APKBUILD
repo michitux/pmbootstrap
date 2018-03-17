@@ -1,3 +1,4 @@
+# Contributor: Michael Hamann <michael@content-space.de>
 # Maintainer:
 pkgname=py3-dbus
 pkgver=1.2.0
