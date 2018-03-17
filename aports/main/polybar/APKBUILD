@@ -1,0 +1,36 @@
+# Contributor:
+# Maintainer:
+pkgname=polybar
+pkgver=3.1.0
+pkgrel=0
+pkgdesc="A fast and easy-to-use status bar"
+url="https://github.com/jaagr/polybar"
+arch="all"
+license="MIT"
+depends="cairo libxcb xcb-util-image xcb-util-wm xcb-util-xrm xcb-util-cursor xcb-util-renderutil"
+makedepends="git cmake python3 alsa-lib alsa-lib-dev libmpdclient libmpdclient-dev wireless-tools wireless-tools-dev jsoncpp jsoncpp-dev libxcb-dev xcb-util-image-dev xcb-util-wm-dev xcb-util-xrm-dev xcb-util-cursor-dev xcb-util-renderutil-dev curl curl-dev cairo-dev i3wm linux-headers"
+install=""
+subpackages="$pkgname-doc"
+source=""
+builddir="$srcdir/$pkgname"
+_giturl="https://github.com/jaagr/polybar"
+
+prepare() {
+	default_prepare
+	cd "$srcdir"
+	git clone --depth 1 --branch $pkgver --recursive $_giturl
+	git -C "$builddir"/lib/xpp checkout 00165e1a6d5dd61bc153e1352b21ec07fc81245d
+	mkdir -p "$srcdir/build"
+}
+
+build() {
+	cd "$srcdir"/build
+	cmake "$builddir" -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
+	cmake --build .
+}
+
+package() {
+	cd "$srcdir"/build
+	cmake --build "$srcdir"/build --target install -- DESTDIR="$pkgdir"
+}
+
