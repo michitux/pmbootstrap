@@ -1,0 +1,28 @@
+# Contributor:
+# Maintainer:
+pkgname=onboard
+pkgver=1.4.1
+pkgrel=0
+pkgdesc="On-screen keyboard useful on tablet PCs or for mobility impaired users"
+url="https://launchpad.net/onboard"
+arch="all"
+license="GPL"
+depends="python3 gtk+3.0 hunspell iso-codes libcanberra libxkbfile py3-cairo py3-gobject3 dconf libxtst eudev gsettings-desktop-schemas ncurses librsvg dbus-x11"
+makedepends="python3-dev py3-distutils-extra bash gtk+3.0-dev libxtst-dev libxkbfile-dev dconf-dev libcanberra-dev hunspell-dev eudev-dev"
+install=""
+subpackages="$pkgname-doc"
+source="https://launchpad.net/$pkgname/${pkgver%.*}/$pkgver/+download/$pkgname-$pkgver.tar.gz error.patch"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+	cd "$builddir"
+	python3 setup.py build
+}
+
+package() {
+	cd "$builddir"
+	python3 setup.py install --prefix=/usr --root="$pkgdir" --optimize=1
+}
+
+sha512sums="ed75c1dce893e3420ecf532faffb15efc9fba56cf6622b03fe5e1cebb88d32304636b0268e4b8b75dc0eb6d7bfc8602c4a93a90bdeb8cd960d3447d16acc7463  onboard-1.4.1.tar.gz
+0a26aedc7895d8d7c7a5ba396cbf578328fac6d2d3d9066cade955ef0fd483a3dc18cb5cd50e6f1ce1edccf77184408d8a741387eab244cfdb6244d5efca4696  error.patch"
