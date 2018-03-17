@@ -10,7 +10,7 @@ license="GPL"
 depends="python3 gtk+3.0 hunspell iso-codes libcanberra libxkbfile py3-cairo py3-gobject3 dconf libxtst eudev gsettings-desktop-schemas ncurses librsvg dbus-x11 py3-dbus"
 makedepends="python3-dev py3-distutils-extra bash gtk+3.0-dev libxtst-dev libxkbfile-dev dconf-dev libcanberra-dev hunspell-dev eudev-dev"
 install=""
-subpackages="$pkgname-doc"
+subpackages="$pkgname-doc $pkgname-lang"
 source="https://launchpad.net/$pkgname/${pkgver%.*}/$pkgver/+download/$pkgname-$pkgver.tar.gz error.patch"
 builddir="$srcdir/$pkgname-$pkgver"
 
