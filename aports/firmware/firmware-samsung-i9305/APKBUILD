@@ -1,24 +1,30 @@
 pkgname=firmware-samsung-i9305
-pkgver=1
+pkgver=2
 pkgrel=1
 pkgdesc="Samsung Galaxy SIII LTE Firmware"
-url="https://github.com/Androguide/android_vendor_samsung"
+url="https://github.com/TheMuppets/proprietary_vendor_samsung"
 arch="noarch"
 license="proprietary"
 options="!check !strip"
 
 # Source
-_commit="d5a8735a6ad1fff3091f100383ac004f411d7528"
-source=$pkgname-$_commit.tar.gz::$url"/archive/${_commit}.tar.gz"
+_files="
+	bcmdhd_sta.bin_b2
+	nvram_net.txt
+"
+_commit="f126ef1e53254a9d60024b5a46d8f578331dfe37"
+_url="https://github.com/TheMuppets/proprietary_vendor_samsung/raw/$_commit/kona-common/proprietary/system/etc/wifi"
+source=""
+for _i in $_files; do
+	source="$source $pkgname-$_commit-$_i::$_url/$_i";
+done
 
 package() {
-	cd "$srcdir/android_vendor_samsung-${_commit}/smdk4412-common/proprietary/system/"
-
-	# Wifi
-	install -Dm644 "etc/wifi/bcmdhd_sta.bin_b2" \
-		"$pkgdir/lib/firmware/postmarketos/bcmdhd_sta.bin_b2"
-	install -Dm644 "etc/wifi/nvram_net.txt" \
-		"$pkgdir/lib/firmware/postmarketos/nvram_net.txt"
+	for _i in $_files; do
+		install -Dm644 "$srcdir/$pkgname-$_commit-$_i" \
+			"$pkgdir/lib/firmware/postmarketos/$_i"
+	done
 }
 
-sha512sums="6559320d23e6a73accacf8c760426cb5a0679ab34e353d24dde653b336eadf98c2aa28c783e7010bf9f32cc64baadc02a9fff09baac6ff8b535ed5bc94c8abc5  firmware-samsung-i9305-d5a8735a6ad1fff3091f100383ac004f411d7528.tar.gz"
+sha512sums="88b4e41ab36b7ad8de7b37a1b83f4c5b436d2cb41978f4b7e368d59de536b0ce18067d9fd097658a9d75937127da69b23d732a0befb2703d201646cc8f584d06  firmware-samsung-i9305-f126ef1e53254a9d60024b5a46d8f578331dfe37-bcmdhd_sta.bin_b2
+2927696a4004e78c4467fc8330407f10e387db0ad88e82e6e2b96f6c875f190590d09382bd8a94a370670396cbc236742ed9bf7d4b06a1d71302f7127d958886  firmware-samsung-i9305-f126ef1e53254a9d60024b5a46d8f578331dfe37-nvram_net.txt"
