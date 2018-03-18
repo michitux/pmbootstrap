@@ -12,19 +12,27 @@ _files="
 	bcmdhd_sta.bin_b2
 	nvram_net.txt
 "
+_files_bin="
+	bcm4334.hcd
+"
 _commit="f126ef1e53254a9d60024b5a46d8f578331dfe37"
-_url="https://github.com/TheMuppets/proprietary_vendor_samsung/raw/$_commit/kona-common/proprietary/system/etc/wifi"
+_url="https://github.com/TheMuppets/proprietary_vendor_samsung/raw/$_commit/"
 source=""
 for _i in $_files; do
-	source="$source $pkgname-$_commit-$_i::$_url/$_i";
+	source="$source $pkgname-$_commit-$_i::$_url/kona-common/proprietary/system/etc/wifi/$_i";
+done
+
+for _i in $_files_bin; do
+	source="$source $pkgname-$_commit-$_i::$_url/smdk4412-common/proprietary/bin/$_i";
 done
 
 package() {
-	for _i in $_files; do
+	for _i in $_files $_files_bin; do
 		install -Dm644 "$srcdir/$pkgname-$_commit-$_i" \
 			"$pkgdir/lib/firmware/postmarketos/$_i"
 	done
 }
 
 sha512sums="88b4e41ab36b7ad8de7b37a1b83f4c5b436d2cb41978f4b7e368d59de536b0ce18067d9fd097658a9d75937127da69b23d732a0befb2703d201646cc8f584d06  firmware-samsung-i9305-f126ef1e53254a9d60024b5a46d8f578331dfe37-bcmdhd_sta.bin_b2
-2927696a4004e78c4467fc8330407f10e387db0ad88e82e6e2b96f6c875f190590d09382bd8a94a370670396cbc236742ed9bf7d4b06a1d71302f7127d958886  firmware-samsung-i9305-f126ef1e53254a9d60024b5a46d8f578331dfe37-nvram_net.txt"
+2927696a4004e78c4467fc8330407f10e387db0ad88e82e6e2b96f6c875f190590d09382bd8a94a370670396cbc236742ed9bf7d4b06a1d71302f7127d958886  firmware-samsung-i9305-f126ef1e53254a9d60024b5a46d8f578331dfe37-nvram_net.txt
+cbb1c6a3be68bc88248a2d27f32febc331c02c0b192a2e7e3b3ff7e441c65ebc01eb136353b84b9dfc4c2d9ec74fa333b1529b68df5d9e3968321f18eebe1fb1  firmware-samsung-i9305-f126ef1e53254a9d60024b5a46d8f578331dfe37-bcm4334.hcd"
