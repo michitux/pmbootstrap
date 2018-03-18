@@ -1,0 +1,54 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=bluez4-hidd
+pkgver=4.101
+pkgrel=3
+pkgdesc="hidd tool of the old bluez4 stack"
+url="http://www.bluez.org/"
+arch="all"
+license="GPL2"
+depends=""
+makedepends="dbus-dev libusb-compat-dev glib-dev
+	eudev-dev linux-headers"
+source="http://www.kernel.org/pub/linux/bluetooth/bluez-$pkgver.tar.bz2
+	fix-includes.patch
+	"
+builddir="$srcdir"/bluez-$pkgver
+
+prepare() {
+	default_prepare
+	update_config_sub
+}
+
+build() {
+	cd "$builddir"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--mandir=/usr/share/man \
+		--disable-gstreamer \
+		--disable-alsa \
+		--disable-usb \
+		--disable-tools \
+		--disable-bccmd \
+		--disable-hid2hci \
+		--disable-dfutool \
+		--enable-hidd \
+		--disable-pand \
+		--disable-dund \
+		--disable-cups
+	make
+}
+
+package() {
+	cd "$builddir"
+	mkdir -p "$pkgdir"/tmp
+	make install DESTDIR="$pkgdir"/tmp
+	install -D -m755 "$pkgdir"/tmp/usr/bin/hidd "$pkgdir"/usr/bin/hidd
+	rm -r "$pkgdir"/tmp
+}
+
+sha512sums="a47c3e0943ae50adbcc78b00b4f170f0de8ff12672468e5e09897a669df061b97d99a13b3871f8ec9a85785c3e2839ea2c64e304cb9dd632e33244c222684e1a  bluez-4.101.tar.bz2
+be356e156e96f440f6506235b103efb8d835acf7a5a8f061553619b8bac8549288444e2ca86199a81cba87df12297e1d589403e1afef15c4b93fe0ee229a1bc7  fix-includes.patch"
