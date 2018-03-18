@@ -1,7 +1,7 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=bluez4-hidd
 pkgver=4.101
-pkgrel=3
+pkgrel=0
 pkgdesc="hidd tool of the old bluez4 stack"
 url="http://www.bluez.org/"
 arch="all"
