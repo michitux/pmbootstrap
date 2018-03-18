@@ -1,0 +1,31 @@
+# Contributor:
+# Maintainer:
+pkgname=brcm-patchram-plus
+pkgver=4.1.1_git20170214
+pkgrel=0
+_commit="94fb127e614b19a9a95561b8c1a0716e2e1e6293"
+pkgdesc="Broadcom utility to flash Bluetooth firmwares, extended with per-device Low Power Mode configuration."
+url="https://github.com/AsteroidOS/brcm-patchram-plus/"
+arch="all"
+license="Apache-2.0"
+depends=""
+makedepends="autoconf automake libtool"
+install=""
+source="$pkgname-$pkgver.tar.gz::https://github.com/AsteroidOS/brcm-patchram-plus/archive/$_commit.tar.gz sleep.patch"
+builddir="$srcdir/$pkgname-$_commit"
+
+build() {
+	cd "$builddir"
+	./autogen.sh
+	./configure \
+		--prefix=/usr
+	make
+}
+
+package() {
+	cd "$builddir"
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="335bd3bfaf8cf631285ca112caa2ffe7096b21db9c70e578f6b8501bae35a17e85b11a1c191d7ddfc286313cad7c6f3f8588549fa827484db74860dd0f2893b4  brcm-patchram-plus-4.1.1_git20170214.tar.gz
+020c7e6136ae3827c8edb6180acd87f2a7c91e56cc3fec9ebd472a4fdbedb7b4cca91d8df73825242ecdc20c7b3dbd306b1cc25b226e2c28026a1c60df2b3882  sleep.patch"
