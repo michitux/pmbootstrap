@@ -1,5 +1,4 @@
-# Contributor:
-# Maintainer:
+# Maintainer: Michael Hamann <michael@content-space.de>
 pkgname=brcm-patchram-plus
 pkgver=4.1.1_git20170214
 pkgrel=0
