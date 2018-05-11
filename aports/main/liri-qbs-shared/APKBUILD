@@ -1,0 +1,33 @@
+# Contributor: Michael Hamann <michael@content-space.de>
+# Maintainer: Michael Hamann <michael@content-space.de>
+pkgname=liri-qbs-shared
+pkgver=1.2.0
+pkgrel=0
+pkgdesc="Extra imports and modules for Qbs"
+url="https://liri.io"
+arch="noarch"
+license="BSD"
+depends="qbs"
+makedepends="qbs-dev"
+install=""
+subpackages="$pkgname-doc"
+source="https://github.com/lirios/qbs-shared/releases/download/v$pkgver/$pkgname-$pkgver.tar.xz"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+	cd "$builddir"
+	qbs setup-toolchains --type gcc /usr/bin/g++ gcc
+	qbs setup-qt /usr/bin/qmake-qt5 qt5
+	qbs config profiles.qt5.baseProfile gcc
+	qbs build --no-install -d build profile:qt5 project.prefix:/usr
+}
+
+package() {
+	cd "$builddir"
+	qbs install -d build --no-build -v --install-root $pkgdir profile:qt5
+
+	mkdir -p $pkgdir/usr/share/licenses/liri-qbs-shared
+	cp LICENSE.BSD $pkgdir/usr/share/licenses/liri-qbs-shared
+}
+
+sha512sums="11fd2633faaf6010bd928fbfdda7112791e49f48fe7c1c4f7eb1d3ebd5ec590a5af71173b0fcf47df8f9af58385650fc3d441ad75ef39a323ee17f58a468fe87  liri-qbs-shared-1.2.0.tar.xz"

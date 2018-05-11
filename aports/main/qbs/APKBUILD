@@ -1,0 +1,37 @@
+# Contributor:
+# Maintainer:
+pkgname=qbs
+pkgver=1.11.0
+pkgrel=0
+pkgdesc="Cross platform build tool"
+url="https://wiki.qt.io/Qbs"
+arch="all"
+license="LGPL"
+depends="qt5-qtscript"
+makedepends="qt5-qtbase-dev qt5-qtscript-dev"
+install=""
+subpackages="$pkgname-dev $pkgname-doc"
+source="http://download.qt.io/official_releases/qbs/$pkgver/qbs-src-$pkgver.tar.gz"
+builddir="$srcdir/$pkgname-src-$pkgver"
+
+build() {
+	cd "$builddir"
+	qmake-qt5 QBS_INSTALL_PREFIX=/usr \
+		CONFIG+=qbs_enable_project_file_updates \
+		QBS_LIBEXEC_INSTALL_DIR=/usr/lib/qbs \
+		QBS_LIBEXEC_DESTDIR=../../../lib/qbs \
+		QBS_RELATIVE_LIBEXEC_PATH=../lib/qbs \
+		qbs.pro
+	make
+}
+
+package() {
+	cd "$builddir"
+	INSTALL_ROOT="$pkgdir" make install
+
+	# For some reason they don't install all the headers so we'll have to do that
+	# by hand.
+	cp src/lib/corelib/tools/*.h "$pkgdir"/usr/include/qbs/tools/
+}
+
+sha512sums="123319aca79c4816fcfd839a7c7f3029c55eac4dc2c2a2bae7df891c15ef81de22bb7f6ad04bbdb39401473a3df15e41b88adcd0d5d2462c2ef3e62bf5e0f80a  qbs-src-1.11.0.tar.gz"

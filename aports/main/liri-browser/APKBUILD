@@ -1,0 +1,32 @@
+# Contributor:
+# Maintainer:
+pkgname=liri-browser
+pkgver=0
+_gitcommit="8ac923eb6b904e5060bb262c41da00d854d9aae4"
+pkgrel=0
+pkgdesc="Liri Browser"
+url="https://liri.io"
+arch="all"
+license="GPL3"
+depends="qt5-qtwebengine fluid"
+makedepends="liri-qbs-shared qbs-dev"
+install=""
+subpackages="$pkgname-dev $pkgname-doc"
+source="$pkgname-$pkgver-$pkgrel.zip::https://github.com/lirios/browser/archive/$_gitcommit.zip"
+builddir="$srcdir/$pkgname-$_gitcommit"
+
+build() {
+	cd "$builddir"
+	qbs setup-toolchains --type gcc /usr/bin/g++ gcc
+	qbs setup-qt /usr/bin/qmake-qt5 qt5
+	qbs config profiles.qt5.baseProfile gcc
+	qbs build --no-install -d build profile:qt5 \
+		modules.lirideployment.prefix:/usr
+}
+
+package() {
+	cd "$builddir"
+	qbs install -d build --no-build -v --install-root $pkgdir profile:qt5
+}
+
+sha512sums="449b29daf0b0b9b7762e3ba2aba43f0beb70f07eda75a2a5b09956fec6f17d02a12afc9c0cf1502ab9918b6b224ba1a1ee06aeb69332dfcea6a13fd97866ae11  liri-browser-0-0.zip"

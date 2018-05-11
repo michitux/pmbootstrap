@@ -1,0 +1,34 @@
+# Contributor:
+# Maintainer:
+pkgname=fluid
+pkgver=1.0.0
+pkgrel=0
+pkgdesc="Components for Qt Quick applications with Material Design"
+url="https://liri.io"
+arch="all"
+license="MPL2"
+depends="qt5-qtquickcontrols2 qt5-qtgraphicaleffects qt5-qtsvg"
+makedepends="liri-qbs-shared qt5-qttools qt5-qttools-dev qbs-dev qt5-qtdeclarative-dev qt5-qtquickcontrols2-dev qt5-qtsvg-dev"
+install=""
+subpackages=""
+source="https://github.com/lirios/fluid/releases/download/v$pkgver/fluid-$pkgver.tar.xz"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+	cd "$builddir"
+	qbs setup-toolchains --type gcc /usr/bin/g++ gcc
+	qbs setup-qt /usr/bin/qmake-qt5 qt5
+	qbs config profiles.qt5.baseProfile gcc
+	qbs build --no-install -d build profile:qt5 \
+		modules.lirideployment.prefix:/usr \
+		modules.lirideployment.qmlDir:/usr/lib/qt/qml \
+		projects.Fluid.useSystemQbsShared:true \
+		projects.Fluid.withDocumentation:false
+}
+
+package() {
+	cd "$builddir"
+	qbs install -d build --no-build -v --install-root $pkgdir profile:qt5
+}
+
+sha512sums="c0541b3d0471af32c9646592cc43a4b4262b5256e2a4402e136ba37fbfe17415de5a16e068fae855012fcbfafe27613b7a30a2cff2a2edb1bd40ef4ad46812e8  fluid-1.0.0.tar.xz"
